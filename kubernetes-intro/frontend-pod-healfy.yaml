@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: frontend
+  name: frontend
+spec:
+  containers:
+  - image: andrewglazov/glazov-av-homework
+    name: frontend
+    resources: {}
+    env:
+    - name: PRODUCT_CATALOG_SERVICE_ADDR
+      value: "someserver.com:8100"
+    - name: CURRENCY_SERVICE_ADDR
+      value: "someserver.com:8101"
+    - name: CART_SERVICE_ADDR
+      value: "someserver.com:8102"
+    - name: RECOMMENDATION_SERVICE_ADDR
+      value: "someserver.com:8103"
+    - name: CHECKOUT_SERVICE_ADDR
+      value: "someserver.com:8104"
+    - name: SHIPPING_SERVICE_ADDR
+      value: "someserver.com:8105"
+    - name: AD_SERVICE_ADDR
+      value: "someserver.com:8106"
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
