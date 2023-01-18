@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: frontend
+ labels:
+  app: frontend
+spec:
+ replicas: 3
+ selector:
+    matchLabels:
+      app: frontend
+ template:
+  metadata:
+   labels:
+    app: frontend
+  spec:
+   containers:
+   - name: server
+     image: andrewglazov/frontend:v0.0.2
+     readinessProbe:
+      initialDelaySeconds: 10
+      httpGet:
+       path: "/_health"
+       port: 8080
+       httpHeaders:
+       - name: "Cookie"
+         value: "shop_session-id=x-readiness-probe"
+     resources: {}
+     env:
+     - name: PRODUCT_CATALOG_SERVICE_ADDR
+       value: "someserver.com:8100"
+     - name: CURRENCY_SERVICE_ADDR
+       value: "someserver.com:8101"
+     - name: CART_SERVICE_ADDR
+       value: "someserver.com:8102"
+     - name: RECOMMENDATION_SERVICE_ADDR
+       value: "someserver.com:8103"
+     - name: CHECKOUT_SERVICE_ADDR
+       value: "someserver.com:8104"
+     - name: SHIPPING_SERVICE_ADDR
+       value: "someserver.com:8105"
+     - name: AD_SERVICE_ADDR
+       value: "someserver.com:8106"
