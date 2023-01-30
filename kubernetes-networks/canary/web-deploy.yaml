@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: web-canary
+spec:
+ replicas: 3
+ selector:
+  matchLabels:
+   app: web-canary
+ strategy:
+  type: RollingUpdate
+  rollingUpdate:
+   maxUnavailable: 0
+   maxSurge: 100%
+ template:
+  metadata:
+    labels:
+     app: web-canary
+  spec:
+   containers:
+   - name: web-canary
+     image: andrewglazov/webserver:v0.0.1
+     livenessProbe:
+       tcpSocket:
+         port: 8000
+     readinessProbe:
+       httpGet:
+         path: /index.html
+         port: 8000
+     volumeMounts:
+     - name: app
+       mountPath: /app
+   initContainers:
+   - name: init-webapp
+     image: busybox:stable
+     command: ['sh', '-c', 'echo "canary answer!" > /app/index.html | sh']
+     volumeMounts:
+     - name: app
+       mountPath: /app
+   volumes:
+   - name: app
+     emptyDir: {}
