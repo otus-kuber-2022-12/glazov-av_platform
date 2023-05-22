@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: mynginnx
+  labels:
+    app: mynginnx
+spec:
+  selector:
+    matchLabels:
+      app: mynginx
+  endpoints:
+    - port: metrics
+      interval: 10s
+      path: /metrics
