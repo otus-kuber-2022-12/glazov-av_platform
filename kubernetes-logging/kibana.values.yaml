@@ -1,0 +1,13 @@
+replicaCount: 1
+nodeSelector: &nodeSelector
+  yandex.cloud/node-group-id: catsqlkscfblnvrvur24
+tolerations: &tolerations
+  - key: node-role
+    operator: Equal
+    value: infra
+    effect: NoSchedule
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  path: /
+  hostname: kibana.51.250.6.235.nip.io
